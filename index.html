@@ -1,0 +1,85 @@
+ 
+<html>
+  <head>
+    <title>Image recognition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.js"></script>
+
+   <link rel="stylesheet" href="style.css">
+  
+  </head>
+
+  <body>
+  <div class="container">
+    <center>
+      <h3 class="btn btn-default heading">IMAGE RECOGNITION</h3>
+      <br><br>
+      <p style="font-size: 22px;">Model is trained to identify the following objects:</p>
+      <b class="name_of_objects">
+        Watch
+        <hr>
+        Spoon
+        <hr>
+        Phone
+        <hr>
+        Water Bottle
+        <hr>
+      </b>
+      <label>Webcam view - </label>
+      <div id="camera"></div>
+      <br><br>
+      <div id="results"></div>
+      <br><br>
+      <button onclick="take_snapshot();" class="btn-btn-info">Capture image</button>
+      <br><br>
+      <p style="font-size:22px;">Object : <span id="result_object_name"></span></p>
+      <p style="font-size:22px;">Accuracy : <span id="result_object_accuracy"></span></p>
+    </center>
+  </div>
+  <script src="main.js"></script>
+  <script type="text/javascript">
+  if('WebSocket' in window) {
+    (function(){
+      function refreshCSS() {
+        var sheets = [].slice.call(document.getElementsByTagName("link"));
+        var head = document.getElementsByTagName("head")[0];
+        for(var i=0; i < sheets.length; ++i){
+          var elem = sheets[i];
+          var parent = elem.parentElement || head;
+          parent.removeChild(elem);
+          var rel = elem.rel;
+          if(elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase()== "stylesheet") {
+            var url = elem.href.replace(/(&|\?)_cacheOverrride=\d+/,'');
+            elem.href = url + (url.indexof('?') >= 0 ? '&' : '?') + '_cacheOverride= ' + (new Date().valueOf());
+            }
+          parent.appendChild(elem);
+          }
+        }
+      var protocol = window.location.protocol == 'http:'?'ws://':'wss://';})
+      var address = window.location.host + window.location.pathname + '/ws';
+      sockect.onmessage = function (msg){
+        if(msg.data == 'reload') window.location.reload();
+        else if(msg.data == 'refreshcss') refreshCSS();
+        };
+      if(sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+        console.log('Live reload enabled.');
+        sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+        }
+    })();  
+
+    }
+      else {
+          console.error('Upgrade your browser. This browser is NOT supported WebSocket for Live-Reloading.');
+  }
+  // ]]>
+  </script></body>
+
+
+</body>
+</html>
+
+ 
